@@ -560,7 +560,7 @@ class GoogleDriveHelper:
                 msg += f'<h4>Search Result For {fileName}</h4>'
                 Title = True
             if drive_name:
-                msg += f"╾────────────╼<br><b>{drive_name}</b><br>╾────────────╼<br>"
+                msg += f"❏ <b>Drive Path: {drive_name}</b><br><br>"
             for file in response.get('files', []):
                 mime_type = file.get('mimeType')
                 if mime_type == "application/vnd.google-apps.folder":
@@ -589,9 +589,9 @@ class GoogleDriveHelper:
                                    f"</a> (shortcut)"
                 else:
                     if SHORTENERES:
-                        msg += f"📄 <code>{file.get('name').replace(' ', '-').replace('.', ',')}<br>({get_readable_file_size(int(file.get('size', 0)))})</code><br>"
+                        msg += f"📁 <b>{file.get('name').replace(' ', '-').replace('.', ',')}<br>📦 ({get_readable_file_size(int(file.get('size', 0)))})</b><br>"
                     else:
-                        msg += f"📄 <code>{file.get('name')}<br>({get_readable_file_size(int(file.get('size', 0)))})</code><br>"
+                        msg += f"📁 <b>{file.get('name')}<br>📦 ({get_readable_file_size(int(file.get('size', 0)))})</b><br>"
                     if not config_dict['DISABLE_DRIVE_LINK']:
                         furl = short_url(f"https://drive.google.com/uc?id={file.get('id')}&export=download")
                         msg += f"<b><a href={furl}>Drive Link</a></b>"
@@ -620,14 +620,14 @@ class GoogleDriveHelper:
         if not telegraph_content:
             return "", None
 
-        path = [async_to_sync(telegraph.create_page, title='Jmdkh-mltb Drive Search',
+        path = [async_to_sync(telegraph.create_page, title='Bawera-Nitijana Drive Search',
                 content=content)["path"] for content in telegraph_content]
         if len(path) > 1:
             async_to_sync(telegraph.edit_telegraph, path, telegraph_content)
 
         msg = f"<b>Found {contents_count} result for <i>{fileName}</i></b>"
         buttons = ButtonMaker()
-        buttons.ubutton("🔎 VIEW", f"https://telegra.ph/{path[0]}", 'header')
+        buttons.ubutton("🔎 VIEW RESULT", f"https://telegra.ph/{path[0]}", 'header')
         buttons = extra_btns(buttons)
         return msg, buttons.build_menu(2)
 
@@ -646,19 +646,19 @@ class GoogleDriveHelper:
             mime_type = meta.get('mimeType')
             if mime_type == self.__G_DRIVE_DIR_MIME_TYPE:
                 self.__gDrive_directory(meta)
-                msg += f'<b>Name</b>: <code>{name}</code>'
-                msg += f'\n\n<b>Size</b>: {get_readable_file_size(self.__total_bytes)}'
-                msg += '\n\n<b>Type</b>: Folder'
-                msg += f' |<b>SubFolders</b>: {self.__total_folders}'
+                msg += f'<b>• Name</b>: <code>{name}</code>'
+                msg += f'\n\n<b>• Size</b>: {get_readable_file_size(self.__total_bytes)}'
+                msg += '\n\n<b>• Type</b>: Folder'
+                msg += f' |<b>• SubFolders</b>: {self.__total_folders}'
             else:
-                msg += f'<b>Name</b>: <code>{name}</code>'
+                msg += f'<b>• Name</b>: <code>{name}</code>'
                 if mime_type is None:
                     mime_type = 'File'
                 self.__total_files += 1
                 self.__gDrive_file(meta)
-                msg += f'\n<b>Size</b>: {get_readable_file_size(self.__total_bytes)}'
-                msg += f'\n\n<b>Type</b>: {mime_type}'
-            msg += f' |<b>Files</b>: {self.__total_files}'
+                msg += f'\n<b>• Size</b>: {get_readable_file_size(self.__total_bytes)}'
+                msg += f'\n\n<b>• Type</b>: {mime_type}'
+            msg += f' |<b>• Files</b>: {self.__total_files}'
         except Exception as err:
             if isinstance(err, RetryError):
                 LOGGER.info(f"Total Attempts: {err.last_attempt.attempt_number}")
