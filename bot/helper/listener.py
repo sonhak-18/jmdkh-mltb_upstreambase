@@ -328,13 +328,13 @@ class MirrorLeechListener:
         if self.isSuperGroup and config_dict['INCOMPLETE_TASK_NOTIFIER'] and DATABASE_URL:
             await DbManger().rm_complete_task(self.message.link)
         if self.isLeech:
-            msg = f'<b>Name</b>: <code>{escape(name)}</code>\n\n<b>Size</b>: {size}'
-            msg += f'\n<b>Total Files</b>: {folders}'
-            msg += f"\n<b>Elapsed</b>: {get_readable_time(time() - self.startTime)}"
+            msg = f'<b>• Name</b>: <code>{escape(name)}</code>\n\n<b>• Size</b>: {size}'
+            msg += f'\n<b>• Total Files</b>: {folders}'
+            msg += f"\n<b>• Elapsed</b>: {get_readable_time(time() - self.startTime)}"
             if typ != 0:
-                msg += f'\n<b>Corrupted Files</b>: {typ}'
-            msg += f'\n<b>#cc</b>: {self.tag}'
-            msg += f"\n<b>Upload</b>: {self.mode}\n\n"
+                msg += f'\n<b>• Corrupted Files</b>: {typ}'
+            msg += f'\n<b>• cc</b>: {self.tag}'
+            msg += f"\n<b>• Upload</b>: {self.mode}\n\n"
             if not files:
                 await sendMessage(self.message, msg)
                 if self.logMessage:
@@ -376,17 +376,17 @@ class MirrorLeechListener:
                 return
         else:
             if SHORTENERES:
-                msg = f'<b>Name</b>: <code>.{escape(name).replace(" ", "-").replace(".", ",")}</code>\n\n<b>Size</b>: {size}'
+                msg = f'<b>• Name</b>: <code>.{escape(name).replace(" ", "-").replace(".", ",")}</code>\n\n<b>• Size</b>: {size}'
             else:
-                msg = f'<b>Name</b>: <code>{escape(name)}</code>\n\n<b>Size</b>: {size}'
-            msg += f'\n\n<b>Type</b>: {typ}'
+                msg = f'<b>• Name</b>: <code>{escape(name)}</code>\n\n<b>Size</b>: {size}'
+            msg += f'\n\n<b>• Type</b>: {typ}'
             if typ == "Folder":
-                msg += f' |<b>SubFolders</b>: {folders}'
-                msg += f' |<b>Files</b>: {files}'
-            msg += f'\n\n<b>#cc</b>: {self.tag} | <b>Elapsed</b>: {get_readable_time(time() - self.startTime)}'
-            msg += f"\n\n<b>Upload</b>: {self.mode}"
+                msg += f' |<b>• SubFolders</b>: {folders}'
+                msg += f' |<b>• Files</b>: {files}'
+            msg += f'\n\n<b>• cc</b>: {self.tag} | <b>Elapsed</b>: {get_readable_time(time() - self.startTime)}'
+            msg += f"\n\n<b>• Upload</b>: {self.mode}"
             if config_dict['GDRIVE_ID'] != drive_id or self.select:
-                msg += f"\n\n<b>Folder id</b>: <code>{drive_id}</code>"
+                msg += f"\n\n<b>• Folder id</b>: <code>{drive_id}</code>"
             buttons = ButtonMaker()
             if not config_dict['DISABLE_DRIVE_LINK']:
                 link = await sync_to_async(short_url, link)
