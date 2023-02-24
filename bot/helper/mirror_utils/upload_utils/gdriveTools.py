@@ -565,9 +565,9 @@ class GoogleDriveHelper:
                 mime_type = file.get('mimeType')
                 if mime_type == "application/vnd.google-apps.folder":
                     if SHORTENERES:
-                        msg += f"📁 .<code>{file.get('name').replace(' ', '-').replace('.', ',')}<br>(folder)</code><br>"
+                        msg += f"📁 .<b>{file.get('name').replace(' ', '-').replace('.', ',')}<br>🗂 (folder)</b><br>"
                     else:
-                        msg += f"📁 <code>{file.get('name')}<br>(folder)</code><br>"
+                        msg += f"📁 <b>{file.get('name')}<br>(folder)</b><br>"
                     if not config_dict['DISABLE_DRIVE_LINK']:
                         furl = short_url(f"https://drive.google.com/drive/folders/{file.get('id')}")
                         msg += f"<b><a href={furl}>Drive Link</a></b>"
